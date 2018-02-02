@@ -1,14 +1,13 @@
 # Run_spinup.R
 
 StartRun <- function(input, site_data, pars, pars_new = NULL, initial_state = "equil", spin.years = 0, spinup = 0, tsave = month) {
-
+browser()
   pars <- c(pars, site_data)
   for(n in names(pars_new)) pars[[n]] <- pars_new[[n]]
   pars <- ParsCalc(pars)
 
   if (initial_state == "equil") {
-    initial_state <- GetEquil(eq_temp = pars[['eq_temp']], eq_moist = pars[['eq_moist']],
-                              eq_litt = pars[['eq_litt']], pars = pars)
+    initial_state <- GetEquil(pars = pars)
   }
 
   end   <- tail(input$hour, 1)

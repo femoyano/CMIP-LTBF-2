@@ -2,12 +2,12 @@
 ###       Run Script                    ###
 ### ----------------------------------- ###
 
-rm(list=ls())
+# rm(list=ls())
 
 t0 <- Sys.time()
 starttime  <- format(t0, "%m%d-%H%M")
-# sitenum <-  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
 sitenum <- commandArgs(trailingOnly = TRUE)
+sitenum <- 7  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
 source("optim_settings.R")
 
 ### Libraries =================================================================
@@ -55,39 +55,38 @@ tstep  <- hour
 ### Prepare site data
 ################################################################################
 
-obs <- read_csv("../input/obs.csv", skip = 1)
-obs <- obs[obs$sitenum == sitenum,]
-site <- obs$site[1]
-site_data <- read_csv("../input/site_data.csv")
-site_data <- setNames(as.numeric(site_data[site_data$sitenum == sitenum,-1]), colnames(site_data[,-1]))
-trans.input.file  <- paste("../input/input_trans_" , site, ".csv", sep="")
-input_trans <- read_csv(trans.input.file, skip = 2)
+site_data <- suppressMessages(read_csv("../input/site_data.csv"))
+site_data <- site_data[site_data$sitenum == sitenum, ]
+site <- site_data$site
+climate <- site_data$climate
+site_data <- setNames(suppressMessages(as.numeric(site_data)), colnames(site_data))
+obs <- suppressMessages(read_csv("../input/obs.csv", skip = 1))
+obs <- obs[obs$site == site,]
+trans.input.file  <- paste("../input/input_trans_" , climate, ".csv", sep="")
+input_trans <- suppressMessages(read_csv(trans.input.file, skip = 2))
 input_spin <- input_trans[input_trans$year < 11, ]
-input_spin$litt <- 0.00005 # in kgC m-2 h-1
 input_spin <- MonthlyInput(input_spin)
 input_trans <- MonthlyInput(input_trans)
 
 if (opt_eq) {
   C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
-  fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars = pars, C_obs = C_obs,
+  fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars = pars, C_obs = C_obs, site_data = site_data,
                   method = "L-BFGS-B", lower = pars_optimeq_lower, upper = pars_optimeq_upper)
-  pars_optim_init <-fit_eq$par
+  browser()
+  run_fiteq <- as.data.frame(StartRun(pars = pars, pars_new = fit_eq$par,
+                                      site_data = site_data, input = input_trans))
+  source('plots.R')
 }
-
-run_fiteq <- StartRun(pars = pars, pars_new = fit_eq$par, site_data = site_data,
-                        input = input_trans)
 
 if (opt_tr) {
   # fit_tr <- optim(fn =  CostTrans, par = pars_optim_init, pars = pars,
   #                 input_spin = input_spin, input_trans = input_trans,
   #                 method = "L-BFGS-B", upper = pars_optim_upper, lower = pars_optim_lower)
-  fit_tr <- modFit(f = CostTrans, p = pars_optim_init, pars = pars, C_obs = C_obs,
+  fit_tr <- modFit(f = CostTrans, p = pars_optim_init, pars = pars, C_obs = C_obs, site_data = site_data,
                    input_spin = input_spin, input_trans = input_trans, method = "SANN",
                    upper = pars_optim_upper, lower = pars_optim_lower)
+  run_fittr <- as.data.frame(StartRun(pars = pars, pars_new = fit_tr$par,
+                                      site_data = site_data, input = input_trans))
 }
 
-run_fittr <- StartRun(pars = pars, pars_new = fit_tr$par, site_data = site_data,
-                        input = input_trans)
-
-
-save.image(file = paste0("Optim_", site, "_", site, "_", starttime, ".RData"))
+# save.image(file = paste0("Optim_", site, "_", site, "_", starttime, ".RData"))

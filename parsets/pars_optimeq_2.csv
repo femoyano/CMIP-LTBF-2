@@ -1,0 +1,4 @@
+par,init,lower,upper
+V_D_ref,0.01,0.001,1
+r_md_ref,0.002,1E-05,0.01
+md_exp,2,1,4

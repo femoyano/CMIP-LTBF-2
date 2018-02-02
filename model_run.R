@@ -2,9 +2,9 @@
 
 rm(list=ls())
 
-sitenum <- 6 ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
-pars.default.file <- "parsets/pars5.1.csv"
-pars.new.file <- "parsets/pars_new.csv"
+sitenum <- 1 ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
+pars.default.file <- "parsets/pars_M2H_test.csv"
+pars.new.file <- "parsets/pars_new_0.csv"
 flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
 diff_fun  <- "hama"  # Options: 'hama', 'cubic'

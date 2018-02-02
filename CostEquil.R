@@ -1,6 +1,6 @@
 ### Equilibrium solutions
 
-CostEquil <- function(pars_new, pars = pars, C_obs = C_obs) {
+CostEquil <- function(pars_new, pars = pars, C_obs = C_obs, site_data = site_data) {
 
   # Add or replace parameters from the list of optimized parameters
   # ----------------------
@@ -8,7 +8,7 @@ CostEquil <- function(pars_new, pars = pars, C_obs = C_obs) {
   for(n in names(pars_new)) pars[[n]] <- pars_new[[n]]
   pars <- ParsCalc(pars)
 
-  eq <- GetEquil(eq_temp = pars[['eq_temp']], eq_moist = pars[['eq_moist']], eq_litt = pars[['eq_litt']], pars = pars)
+  eq <- GetEquil(pars = pars)
   C_mod <- (eq[['C_P']] + eq[['C_A']]) * 10000 / 1000 # total converted to tons C per ha
   sqres <- (C_obs - C_mod)^2
   # print(sqres)

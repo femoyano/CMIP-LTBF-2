@@ -2,6 +2,7 @@
 
 CostTrans <- function(pars_optim, pars = pars, site_data = site_data, C_obs = C_obs, input_spin, input_trans) {
 
+  input_spin$litt <- c(pars_optim, pars, site_data)[['eq_litt']] # in kgC m-2 h-1
   # run the spinup and get the last values for starting transient simulation
   out.sp <- as.data.frame(
     StartRun(input = input_spin, site_data = site_data, pars = pars, pars_new = pars_optim, initial_state = 'equil',
