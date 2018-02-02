@@ -64,13 +64,13 @@ input_spin$litt <- site_data[['eq_litt']] # in kgC m-2 h-1
 input_spin <- MonthlyInput(input_spin)
 input_trans <- MonthlyInput(input_trans)
 
-initial_state <- if (site == "askovb3")     c(C_P = 4.541, C_D = 0.040032, C_A = 0.580102, C_M = 0.095935)   else
-  if (site == "askovb4")     c(C_P = 4.159, C_D = 0.043,    C_A = 0.58102, C_M = 0.095935) else
-    if (site == "grignon")     c(C_P = 2.669, C_D = 0.048032, C_A = 1.400102, C_M = 0.045935) else
-      if (site == "kursk")       c(C_P = 8.419, C_D = 0.098032, C_A = 1.380102, C_M = 0.105935) else
-        if (site == "rothamsted")  c(C_P = 5.166, C_D = 0.048032, C_A = 0.900102, C_M = 0.095935) else
-          if (site == "ultuna")      c(C_P = 2.606, C_D = 0.048032, C_A = 1.500102, C_M = 0.095935) else
-            if (site == "versailles")  c(C_P = 5.539, C_D = 0.035958, C_A = 0.980102, C_M = 0.114297)
+# initial_state <- if (site == "askovb3")     c(C_P = 4.541, C_D = 0.040032, C_A = 0.580102, C_M = 0.095935)   else
+#   if (site == "askovb4")     c(C_P = 4.159, C_D = 0.043,    C_A = 0.58102, C_M = 0.095935) else
+#     if (site == "grignon")     c(C_P = 2.669, C_D = 0.048032, C_A = 1.400102, C_M = 0.045935) else
+#       if (site == "kursk")       c(C_P = 8.419, C_D = 0.098032, C_A = 1.380102, C_M = 0.105935) else
+#         if (site == "rothamsted")  c(C_P = 5.166, C_D = 0.048032, C_A = 0.900102, C_M = 0.095935) else
+#           if (site == "ultuna")      c(C_P = 2.606, C_D = 0.048032, C_A = 1.500102, C_M = 0.095935) else
+#             if (site == "versailles")  c(C_P = 5.539, C_D = 0.035958, C_A = 0.980102, C_M = 0.114297)
 
 mod <- as.data.frame(StartRun(pars = pars, pars_new = pars_new, site_data = site_data,
          input = input_trans, initial_state = 'equil', tsave = year))

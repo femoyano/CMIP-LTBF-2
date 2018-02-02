@@ -1,7 +1,8 @@
 ### Equilibrium solutions
 ### For: dec_fun = 'MM', upt_fun = '1st', diff = 'hama'
 
-GetEquil <- function(pars) {
+GetEquil <- function(pars, site_data = NULL) {
+  pars <- c(pars, site_data)
   initial_state <- with(as.list(pars), {
 
     # Temp function

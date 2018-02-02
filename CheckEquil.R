@@ -1,0 +1,24 @@
+
+sitenum <- 1 ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
+pars.default.file <- 'parsets/pars_M2H.csv' #"parsets/pars_M2H_test.csv"
+pars.new.file <- "parsets/pars_new_0.csv"
+flag_ads  <- 1  # simulate adsorption to minerals
+flag_lea  <- 0  # simulate leakage
+diff_fun  <- "hama"  # Options: 'hama', 'cubic'
+dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
+upt_fun   <- "1st" # One of: 'MM', '2nd', '1st'
+
+source("GetEquil.R")
+
+### === Parameter Options =====================
+pars <- read.csv(pars.default.file, row.names = 1)
+pars <- setNames(pars[[1]], row.names(pars))
+pars_new  <- read.csv(pars.new.file, row.names = 1)
+pars_new  <- setNames(pars_new[[1]], row.names(pars_new))
+site_data <- suppressMessages(read_csv("../input/site_data.csv"))
+site_data <- site_data[site_data$sitenum == sitenum, ]
+site <- site_data$site
+climate <- site_data$climate
+site_data <- suppressMessages(setNames(as.numeric(site_data), colnames(site_data)))
+# for(n in names(pars_new)) pars[[n]] <- pars_new[[n]]
+print(GetEquil(pars = pars, site_data = site_data))
