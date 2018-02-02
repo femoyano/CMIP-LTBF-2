@@ -6,8 +6,9 @@ rm(list=ls())
 
 t0 <- Sys.time()
 starttime  <- format(t0, "%m%d-%H%M")
-cmdarg <- commandArgs(trailingOnly = TRUE)
-source(paste0(cmdarg, "settings.R"))
+# sitenum <-  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
+sitenum <- commandArgs(trailingOnly = TRUE)
+source("optim_settings.R")
 
 ### Libraries =================================================================
 library(deSolve)
@@ -29,6 +30,11 @@ source("MonthlyInput.R")
 ### === Parameter Options =====================
 pars <- read.csv(pars.default.file, row.names = 1)
 pars <- setNames(pars[[1]], row.names(pars))
+
+pars_optimeq       <- read.csv(pars.optimeq.file, row.names = 1)
+pars_optimeq_init  <- setNames(pars_optimeq[[1]], row.names(pars_optimeq))
+pars_optimeq_lower <- setNames(pars_optimeq[[2]], row.names(pars_optimeq))
+pars_optimeq_upper <- setNames(pars_optimeq[[3]], row.names(pars_optimeq))
 
 pars_optim       <- read.csv(pars.optim.file, row.names = 1)
 pars_optim_init  <- setNames(pars_optim[[1]], row.names(pars_optim))
@@ -63,8 +69,8 @@ input_trans <- MonthlyInput(input_trans)
 
 if (opt_eq) {
   C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
-  fit_eq <- optim(par = pars_optim_init, fn = CostEquil, pars = pars, C_obs = C_obs,
-                  method = "L-BFGS-B", lower = pars_optim_lower, upper = pars_optim_upper)
+  fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars = pars, C_obs = C_obs,
+                  method = "L-BFGS-B", lower = pars_optimeq_lower, upper = pars_optimeq_upper)
   pars_optim_init <-fit_eq$par
 }
 
@@ -84,4 +90,4 @@ run_fittr <- StartRun(pars = pars, pars_new = fit_tr$par, site_data = site_data,
                         input = input_trans)
 
 
-save.image(file = paste0("Optim_", cmdarg, "_", site, "_", starttime, ".RData"))
+save.image(file = paste0("Optim_", site, "_", site, "_", starttime, ".RData"))
