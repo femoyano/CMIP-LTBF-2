@@ -60,7 +60,7 @@ obs <- obs[obs$site == site,]
 trans.input.file  <- paste("../input/input_trans_" , climate, ".csv", sep="")
 input_trans <- suppressMessages(read_csv(trans.input.file, skip = 2))
 input_spin <- input_trans[input_trans$year < 11, ]
-input_spin$litt <- site_data[['eq_litt']] # in kgC m-2 h-1
+input_spin$litt <- pars[['eq_litt']] # in kgC m-2 h-1
 input_spin <- MonthlyInput(input_spin)
 input_trans <- MonthlyInput(input_trans)
 
@@ -77,6 +77,6 @@ mod <- as.data.frame(StartRun(pars = pars, pars_new = pars_new, site_data = site
 
 SOC <- apply(mod[,-1], MARGIN = 1, sum)
 SOC <- SOC * 10000 / 1000  # conversion to tons C per ha
-year <- mod$time/360/24
-plot(SOC~year, ylim=c(0,max(c(SOC, obs$soc.t.ha))), main = site, type = 'l')
+mod$year <- mod$time/360/24
+plot(SOC~mod$year,  type = 'l')#, ylim=c(0,max(c(SOC, obs$soc.t.ha))), main = site)
 points(obs$soc.t.ha~obs$time, col = 2)
