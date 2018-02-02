@@ -1,7 +1,7 @@
 # Run_spinup.R
 
-StartRun <- function(input, site_data, pars, pars_new = NULL, initial_state = "equil", spin.years = 0, spinup = 0, tsave = month) {
-browser()
+StartRun <- function(input, site_data, pars, pars_new = NULL, initial_state = "equil", spin.years = 10, spinup = 0, tsave = month) {
+
   pars <- c(pars, site_data)
   for(n in names(pars_new)) pars[[n]] <- pars_new[[n]]
   pars <- ParsCalc(pars)

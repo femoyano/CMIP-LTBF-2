@@ -4,11 +4,28 @@
 
 # rm(list=ls())
 
+################################################################################
+### Settings
+################################################################################
+
+sitenum <- 3  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
+# sitenum <- commandArgs(trailingOnly = TRUE)
+opt_eq <- 1
+opt_tr <- 0
+flag_ads  <- 1  # simulate adsorption to minerals
+flag_lea  <- 0  # simulate leakage
+diff_fun  <- "hama"  # Options: 'hama', 'cubic'
+dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
+upt_fun   <- "1st" # One of: 'MM', '2nd', '1st'
+pars.default.file <-  "parsets/pars_M2H_test.csv"
+pars.optim.file <- "parsets/pars_optim_2.csv"
+pars.optimeq.file <- "parsets/pars_optimeq_1.csv"
+
+spin.years   <- 1    # years for spinup run
+flag.cmi     <- 0     # use a constant mean input for spinup
+
 t0 <- Sys.time()
 starttime  <- format(t0, "%m%d-%H%M")
-sitenum <- commandArgs(trailingOnly = TRUE)
-sitenum <- 7  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
-source("optim_settings.R")
 
 ### Libraries =================================================================
 library(deSolve)
@@ -72,7 +89,7 @@ if (opt_eq) {
   C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
   fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars = pars, C_obs = C_obs, site_data = site_data,
                   method = "L-BFGS-B", lower = pars_optimeq_lower, upper = pars_optimeq_upper)
-  browser()
+
   run_fiteq <- as.data.frame(StartRun(pars = pars, pars_new = fit_eq$par,
                                       site_data = site_data, input = input_trans))
   source('plots.R')

@@ -36,40 +36,40 @@ GetEquil <- function(pars) {
     Amax = 200 * (100 * clay)^0.6 / 1000000 * bd * depth * Amax_mod # [kg] max adsorption to minerals (Mayes et al. 2012)
 
     C_P <-
-    -K_D*depth*(2*I_ml**2*f_ug**2*r_md + 4*I_ml*I_sl*f_ug*r_md - I_ml*V_D*f_ug**2*min_md +
-              I_ml*V_D*f_ug*min_md - I_ml*V_D*f_ug*r_mr + I_ml*V_D*f_ug*sqrt(
-                -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
-                  4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
-                  2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2) +
-              2*I_ml*f_ug*min_md*r_mr + 2*I_sl**2*r_md - I_sl*V_D*f_ug*min_md -
-              2*I_sl*V_D*f_ug*r_mr + I_sl*V_D*min_md + I_sl*V_D*r_mr + I_sl*V_D*sqrt(
-                -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
-                  4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
-                  2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2) +
-              2*I_sl*min_md*r_mr + 2*I_sl*r_mr**2)/(
-                2*I_ml**2*f_ug**2*r_md + 4*I_ml*I_sl*f_ug*r_md + 2*I_ml*V_D**2*f_ug**2 -
-                  2*I_ml*V_D**2*f_ug - 2*I_ml*V_D*f_ug**2*min_md + 2*I_ml*V_D*f_ug*min_md -
-                  2*I_ml*V_D*f_ug*r_mr + 2*I_ml*f_ug*min_md*r_mr + 2*I_sl**2*r_md +
-                  2*I_sl*V_D**2*f_ug**2 - 2*I_sl*V_D**2*f_ug - 2*I_sl*V_D*f_ug*min_md -
-                  4*I_sl*V_D*f_ug*r_mr + 2*I_sl*V_D*min_md + 2*I_sl*V_D*r_mr +
-                  2*I_sl*min_md*r_mr + 2*I_sl*r_mr**2)
+      -K_D*depth*(2*I_ml**2*f_ug**2*r_md + 4*I_ml*I_sl*f_ug*r_md - I_ml*V_D*f_ug**2*min_md +
+                    I_ml*V_D*f_ug*min_md - I_ml*V_D*f_ug*r_mr + I_ml*V_D*f_ug*sqrt(
+                      -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
+                        4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
+                        2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2) +
+                    2*I_ml*f_ug*min_md*r_mr + 2*I_sl**2*r_md - I_sl*V_D*f_ug*min_md -
+                    2*I_sl*V_D*f_ug*r_mr + I_sl*V_D*min_md + I_sl*V_D*r_mr + I_sl*V_D*sqrt(
+                      -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
+                        4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
+                        2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2) +
+                    2*I_sl*min_md*r_mr + 2*I_sl*r_mr**2)/(
+                      2*I_ml**2*f_ug**2*r_md + 4*I_ml*I_sl*f_ug*r_md + 2*I_ml*V_D**2*f_ug**2 -
+                        2*I_ml*V_D**2*f_ug - 2*I_ml*V_D*f_ug**2*min_md + 2*I_ml*V_D*f_ug*min_md -
+                        2*I_ml*V_D*f_ug*r_mr + 2*I_ml*f_ug*min_md*r_mr + 2*I_sl**2*r_md +
+                        2*I_sl*V_D**2*f_ug**2 - 2*I_sl*V_D**2*f_ug - 2*I_sl*V_D*f_ug*min_md -
+                        4*I_sl*V_D*f_ug*r_mr + 2*I_sl*V_D*min_md + 2*I_sl*V_D*r_mr +
+                        2*I_sl*min_md*r_mr + 2*I_sl*r_mr**2)
 
     C_D <-
-    (-I_ml*f_ug*r_md + I_ml*r_md - I_sl*f_ug*r_md + I_sl*r_md - f_ug*min_md*r_mr/2 +
-       min_md*r_mr/2 + r_mr**2/2 - r_mr*sqrt(
-         -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
-           4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
-           2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2)/2)/
+      (-I_ml*f_ug*r_md + I_ml*r_md - I_sl*f_ug*r_md + I_sl*r_md - f_ug*min_md*r_mr/2 +
+         min_md*r_mr/2 + r_mr**2/2 - r_mr*sqrt(
+           -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
+             4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
+             2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2)/2)/
       (V_U*g*r_md*(f_ug**2 - 2*f_ug + 1))
 
     C_A <-
       Amax*C_D*k_ads/(C_D*k_ads + k_des)
 
     C_M <-
-    (-f_ug*min_md + min_md + r_mr - sqrt(
-      -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
-        4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
-        2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2))/(2*r_md*(f_ug - 1))
+      (-f_ug*min_md + min_md + r_mr - sqrt(
+        -4*I_ml*f_ug**2*r_md + 4*I_ml*f_ug*r_md - 4*I_sl*f_ug**2*r_md +
+          4*I_sl*f_ug*r_md + f_ug**2*min_md**2 - 2*f_ug*min_md**2 -
+          2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2))/(2*r_md*(f_ug - 1))
 
     return(c(C_P = C_P, C_D = C_D, C_A = C_A, C_M = C_M))
   })

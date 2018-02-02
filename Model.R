@@ -29,9 +29,6 @@ Model_desolve <- function(t, initial_state, pars,
     r_mr  <- TempRespEq(r_mr_ref, temp, T_ref, E_r , R)
     k_ads <- TempRespEq(k_ads_ref, temp, T_ref, E_ad, R)
     k_des <- TempRespEq(k_des_ref, temp, T_ref, E_ad, R)
- # browser()
-    ## linear rmd adjustment
-    r_md_ <- (C_M ) * r_md + min_md
 
     ## Diffusion calculations  --------------------------------------
     if (moist <= Dth) {g_sm <- 0} else
@@ -80,8 +77,9 @@ Model_desolve <- function(t, initial_state, pars,
     F_cdcm <- Ucd * f_ug
     F_cdcr <- Ucd * (1 - f_ug)
 
-    F_cmcp <- C_M * r_md_ * f_mp
-    F_cmcd <- C_M * r_md_ * (1 - f_mp)
+    ## linear rmd adjustment
+    F_cmcp <- C_M * (C_M * r_md + min_md)
+    F_cmcd <- 0
     F_cmcr <- C_M * r_mr
 
     ## Rate of change calculation for state variables ---------------

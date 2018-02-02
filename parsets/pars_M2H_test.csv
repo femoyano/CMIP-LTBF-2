@@ -1,6 +1,7 @@
 par,value
 Amax_mod,1
 Dth,0.063
+E_ad,10
 E_K,89
 E_m,10
 E_r,95

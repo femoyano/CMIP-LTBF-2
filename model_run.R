@@ -2,8 +2,8 @@
 
 rm(list=ls())
 
-sitenum <- 1 ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
-pars.default.file <- "parsets/pars_M2H_test.csv"
+sitenum <- 7 ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
+pars.default.file <- 'parsets/pars_M2H_test.csv' #"parsets/pars_M2H_test.csv"
 pars.new.file <- "parsets/pars_new_0.csv"
 flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
@@ -60,7 +60,7 @@ obs <- obs[obs$site == site,]
 trans.input.file  <- paste("../input/input_trans_" , climate, ".csv", sep="")
 input_trans <- suppressMessages(read_csv(trans.input.file, skip = 2))
 input_spin <- input_trans[input_trans$year < 11, ]
-input_spin$litt <- 0.00005 # in kgC m-2 h-1
+input_spin$litt <- site_data[['eq_litt']] # in kgC m-2 h-1
 input_spin <- MonthlyInput(input_spin)
 input_trans <- MonthlyInput(input_trans)
 
@@ -73,10 +73,10 @@ initial_state <- if (site == "askovb3")     c(C_P = 4.541, C_D = 0.040032, C_A =
             if (site == "versailles")  c(C_P = 5.539, C_D = 0.035958, C_A = 0.980102, C_M = 0.114297)
 
 mod <- as.data.frame(StartRun(pars = pars, pars_new = pars_new, site_data = site_data,
-         input = input_trans, initial_state = initial_state, tsave = year))
+         input = input_trans, initial_state = 'equil', tsave = year))
 
 SOC <- apply(mod[,-1], MARGIN = 1, sum)
 SOC <- SOC * 10000 / 1000  # conversion to tons C per ha
 year <- mod$time/360/24
-plot(SOC~year, ylim=c(0,max(SOC)), main = site, type = 'l')
+plot(SOC~year, ylim=c(0,max(c(SOC, obs$soc.t.ha))), main = site, type = 'l')
 points(obs$soc.t.ha~obs$time, col = 2)
