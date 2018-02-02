@@ -1,0 +1,9 @@
+par,value
+f_me,0.005
+f_mr,0.05
+f_gr,0.65
+K_U_ref,10
+r_ed_ref,0.003
+r_md_ref,0.0003
+V_D_ref,0.1
+V_U_ref,0.2

@@ -1,0 +1,42 @@
+
+--------------
+Time: 2018/01/29 21:16:23
+
+Options 
+dec_fun: MM , upt_fun: 2nd
+
+Solutions
+
+C_P 
+K_D*z*(I_ml*f_ug*r_md + I_sl*r_md + I_sl*r_mr)/(I_ml*V_D*f_ug - I_ml*f_ug*r_md + I_sl*V_D*f_ug - I_sl*r_md - I_sl*r_mr)
+
+C_D 
+z*(r_md + r_mr)/(V_U*f_ug*g)
+
+C_M 
+f_ug*(I_ml + I_sl)/(-f_ug*r_md + r_md + r_mr)
+
+C_A 
+C_D*MD*k_ads*z/(C_D*k_ads + k_des)
+
+
+--------------
+Time: 2018/01/30 23:57:17
+
+Options 
+dec_fun: MM , upt_fun: 1st
+
+Solutions
+
+C_P 
+-K_D*depth*(2*I_ml**2*f_ug**2*r_md0 + 4*I_ml*I_sl*f_ug*r_md0 - I_ml*V_D*f_ug**2*min_md + I_ml*V_D*f_ug*min_md - I_ml*V_D*f_ug*r_mr + I_ml*V_D*f_ug*sqrt(-4*I_ml*f_ug**2*r_md0 + 4*I_ml*f_ug*r_md0 - 4*I_sl*f_ug**2*r_md0 + 4*I_sl*f_ug*r_md0 + f_ug**2*min_md**2 - 2*f_ug*min_md**2 - 2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2) + 2*I_ml*f_ug*min_md*r_mr + 2*I_sl**2*r_md0 - I_sl*V_D*f_ug*min_md - 2*I_sl*V_D*f_ug*r_mr + I_sl*V_D*min_md + I_sl*V_D*r_mr + I_sl*V_D*sqrt(-4*I_ml*f_ug**2*r_md0 + 4*I_ml*f_ug*r_md0 - 4*I_sl*f_ug**2*r_md0 + 4*I_sl*f_ug*r_md0 + f_ug**2*min_md**2 - 2*f_ug*min_md**2 - 2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2) + 2*I_sl*min_md*r_mr + 2*I_sl*r_mr**2)/(2*I_ml**2*f_ug**2*r_md0 + 4*I_ml*I_sl*f_ug*r_md0 + 2*I_ml*V_D**2*f_ug**2 - 2*I_ml*V_D**2*f_ug - 2*I_ml*V_D*f_ug**2*min_md + 2*I_ml*V_D*f_ug*min_md - 2*I_ml*V_D*f_ug*r_mr + 2*I_ml*f_ug*min_md*r_mr + 2*I_sl**2*r_md0 + 2*I_sl*V_D**2*f_ug**2 - 2*I_sl*V_D**2*f_ug - 2*I_sl*V_D*f_ug*min_md - 4*I_sl*V_D*f_ug*r_mr + 2*I_sl*V_D*min_md + 2*I_sl*V_D*r_mr + 2*I_sl*min_md*r_mr + 2*I_sl*r_mr**2)
+
+C_D 
+(-I_ml*f_ug*r_md0 + I_ml*r_md0 - I_sl*f_ug*r_md0 + I_sl*r_md0 - f_ug*min_md*r_mr/2 + min_md*r_mr/2 + r_mr**2/2 - r_mr*sqrt(-4*I_ml*f_ug**2*r_md0 + 4*I_ml*f_ug*r_md0 - 4*I_sl*f_ug**2*r_md0 + 4*I_sl*f_ug*r_md0 + f_ug**2*min_md**2 - 2*f_ug*min_md**2 - 2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2)/2)/(V_U*g*r_md0*(f_ug**2 - 2*f_ug + 1))
+
+C_M 
+(-f_ug*min_md + min_md + r_mr - sqrt(-4*I_ml*f_ug**2*r_md0 + 4*I_ml*f_ug*r_md0 - 4*I_sl*f_ug**2*r_md0 + 4*I_sl*f_ug*r_md0 + f_ug**2*min_md**2 - 2*f_ug*min_md**2 - 2*f_ug*min_md*r_mr + min_md**2 + 2*min_md*r_mr + r_mr**2))/(2*r_md0*(f_ug - 1))
+
+C_A 
+Amax*C_D*k_ads/(C_D*k_ads + k_des)
+

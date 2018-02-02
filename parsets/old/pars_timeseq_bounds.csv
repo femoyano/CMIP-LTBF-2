@@ -1,0 +1,9 @@
+par,lower,upper
+f_me,0.0001,0.05
+f_mr,0,0.15
+f_gr,0.5,0.8
+K_U_ref,0.1,50
+r_ed_ref,0.001,0.01
+r_md_ref,0.0001,0.01
+V_D_ref,0.01,10
+V_U_ref,0.01,10
