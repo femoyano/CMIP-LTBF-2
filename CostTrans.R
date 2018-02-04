@@ -10,7 +10,7 @@ CostTrans <- function(pars_optim, pars = pars, site_data = site_data, C_obs = C_
     )
 
   n <- nrow(out.sp)
-  initial <- c(C_P = out.sp$C_P[n], C_D = out.sp$C_D[n], C_M = out.sp$C_M[n], C_A = out.sp$C_A[n])
+  initial <- c(C_P = out.sp$C_P[n], C_M = out.sp$C_M[n], C_A = out.sp$C_A[n])
 
   # run the transient simulation
   out <- StartRun(input = input_trans, pars = pars, pars_new = pars_optim, initial_state = initial, tsave = month)

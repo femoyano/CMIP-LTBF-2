@@ -7,9 +7,7 @@ pars.default.file <- 'parsets/pars_M2H_test.csv' #"parsets/pars_M2H_test.csv"
 pars.new.file <- "parsets/pars_new_0.csv"
 flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
-diff_fun  <- "hama"  # Options: 'hama', 'cubic'
 dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
-upt_fun   <- "1st" # One of: 'MM', '2nd', '1st'
 
 t0 <- Sys.time()
 starttime  <- format(t0, "%m%d-%H%M")
@@ -78,5 +76,5 @@ mod <- as.data.frame(StartRun(pars = pars, pars_new = pars_new, site_data = site
 SOC <- apply(mod[,-1], MARGIN = 1, sum)
 SOC <- SOC * 10000 / 1000  # conversion to tons C per ha
 mod$year <- mod$time/360/24
-plot(SOC~mod$year,  type = 'l')#, ylim=c(0,max(c(SOC, obs$soc.t.ha))), main = site)
+plot(SOC~mod$year,  type = 'l', ylim=c(0,max(c(SOC, obs$soc.t.ha))), main = site)
 points(obs$soc.t.ha~obs$time, col = 2)

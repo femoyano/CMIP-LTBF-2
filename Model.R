@@ -22,19 +22,11 @@ Model_desolve <- function(t, initial_state, pars,
 
     # Calculate temporally changing variables
     K_D   <- TempRespEq(K_D_ref, temp, T_ref, E_K, R)
-    if(upt_fun == "MM") K_U   <- TempRespEq(K_U_ref, temp, T_ref, E_K, R)
     V_D   <- TempRespEq(V_D_ref, temp, T_ref, E_V, R)
     r_md  <- TempRespEq(r_md_ref, temp, T_ref, E_m , R)
     r_mr  <- TempRespEq(r_mr_ref, temp, T_ref, E_r , R)
     k_ads <- TempRespEq(k_ads_ref, temp, T_ref, E_ad, R)
     k_des <- TempRespEq(k_des_ref, temp, T_ref, E_ad, R)
-
-    # ## Diffusion calculations  --------------------------------------
-    # if (moist <= Dth) {g_sm <- 0} else
-    #   g_sm <- (ps - Dth)^n * ((moist - Dth) / (ps - Dth))^m
-    # g <- g_0 * g_sm
-
-    # C_D_dif <- g * C_D
 
     ### Calculate all fluxes ------
     # Input rate
@@ -53,7 +45,7 @@ Model_desolve <- function(t, initial_state, pars,
 
 	# Adsorption/desorption
     if(flag_ads) {
-      F_cpca  <- F_adsorp(C_D, C_A, Amax, k_ads)
+      F_cpca  <- F_adsorp(C_P, C_A, Amax, k_ads)
       F_cacp  <- F_desorp(C_A, k_des)
     } else {
       F_cpca <- 0
