@@ -1,10 +1,10 @@
 # Run_spinup.R
 
-StartRun <- function(input, site_data, pars, pars_new = NULL, initial_state = "equil", spin.years = 10, spinup = 0, tsave = month) {
+StartRun <- function(input, site_data,  pars_default = pars_default, pars_new = NULL, initial_state = "equil", spin.years = 10, spinup = 0, tsave = month) {
 
-  pars <- c(pars, site_data)
-  for(n in names(pars_new)) pars[[n]] <- pars_new[[n]]
-  pars <- ParsCalc(pars)
+  pars_default <- c( pars_default, site_data)
+  for(n in names(pars_new)) pars_default[[n]] <- pars_new[[n]]
+  pars <- ParsCalc(pars_default)
 
   if (initial_state == "equil") {
     initial_state <- GetEquil(pars = pars)

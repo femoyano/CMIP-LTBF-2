@@ -10,8 +10,8 @@ rm(list=ls())
 
 sitenum <- 1  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
 # sitenum <- commandArgs(trailingOnly = TRUE)
-opt_eq <- 1
-opt_tr <- 0
+opt_eq <- 0
+opt_tr <- 1
 flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
 dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
@@ -19,7 +19,7 @@ pars.default.file <-  "parsets/pars_M_eq.csv"
 pars.optim.file <- "parsets/pars_optim_2.csv"
 pars.optimeq.file <- "parsets/pars_optimeq_2.csv"
 
-spin.years   <- 1    # years for spinup run
+spin.years   <- 2    # years for spinup run
 flag.cmi     <- 0     # use a constant mean input for spinup
 
 t0 <- Sys.time()
@@ -86,8 +86,9 @@ input_spin <- input_trans[input_trans$year < 11, ]
 input_spin <- MonthlyInput(input_spin)
 input_trans <- MonthlyInput(input_trans)
 
+C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
+
 if (opt_eq) {
-  C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
   fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars_default = pars_default, C_obs = C_obs, site_data = site_data,
                   method = "L-BFGS-B", lower = pars_optimeq_lower, upper = pars_optimeq_upper)
   print(paste0('value = ',fit_eq$value))
@@ -111,4 +112,4 @@ if (opt_tr) {
                                       site_data = site_data, input = input_trans))
 }
 
-# save.image(file = paste0("Optim_", site, "_", site, "_", starttime, ".RData"))
+save.image(file = paste0("Optim_", site, "_", site, "_", starttime, ".RData"))
