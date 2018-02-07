@@ -2,24 +2,22 @@
 ###       Run Script                    ###
 ### ----------------------------------- ###
 
-# rm(list=ls())
+rm(list=ls())
 
 ################################################################################
 ### Settings
 ################################################################################
 
-sitenum <- 3  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
+sitenum <- 1  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
 # sitenum <- commandArgs(trailingOnly = TRUE)
 opt_eq <- 1
 opt_tr <- 0
 flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
-diff_fun  <- "hama"  # Options: 'hama', 'cubic'
 dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
-upt_fun   <- "1st" # One of: 'MM', '2nd', '1st'
-pars.default.file <-  "parsets/pars_M2H_test.csv"
+pars.default.file <-  "parsets/pars_M_eq.csv"
 pars.optim.file <- "parsets/pars_optim_2.csv"
-pars.optimeq.file <- "parsets/pars_optimeq_1.csv"
+pars.optimeq.file <- "parsets/pars_optimeq_2.csv"
 
 spin.years   <- 1    # years for spinup run
 flag.cmi     <- 0     # use a constant mean input for spinup
@@ -43,10 +41,12 @@ source("CostEquil.R")
 source("ParsCalc.R")
 source("StartRun.R")
 source("MonthlyInput.R")
+source('EquilFun.R')
+source('util.R')
 
 ### === Parameter Options =====================
-pars <- read.csv(pars.default.file, row.names = 1)
-pars <- setNames(pars[[1]], row.names(pars))
+pars_default <- read.csv(pars.default.file, row.names = 1)
+pars_default <- setNames(pars_default[[1]], row.names(pars_default))
 
 pars_optimeq       <- read.csv(pars.optimeq.file, row.names = 1)
 pars_optimeq_init  <- setNames(pars_optimeq[[1]], row.names(pars_optimeq))
@@ -62,6 +62,7 @@ pars_optim_upper <- setNames(pars_optim[[3]], row.names(pars_optim))
 year  <- 31104000      # seconds in a year
 month <- 2592000
 week  <- 604800
+day   <- 86400
 hour  <- 3600          # seconds in an hour
 sec   <- 1             # seconds in a second!
 
@@ -87,22 +88,26 @@ input_trans <- MonthlyInput(input_trans)
 
 if (opt_eq) {
   C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
-  fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars = pars, C_obs = C_obs, site_data = site_data,
+  fit_eq <- optim(par = pars_optimeq_init, fn = CostEquil, pars_default = pars_default, C_obs = C_obs, site_data = site_data,
                   method = "L-BFGS-B", lower = pars_optimeq_lower, upper = pars_optimeq_upper)
+  print(paste0('value = ',fit_eq$value))
+  print(fit_eq$par)
 
-  run_fiteq <- as.data.frame(StartRun(pars = pars, pars_new = fit_eq$par,
-                                      site_data = site_data, input = input_trans))
+  run_fiteq <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_eq$par,
+                                      site_data = site_data, input = input_trans, tsave = day))
   source('plots.R')
+  out <- GetYearly(data = run_fiteq, obs = obs, steps = year/day)
+  write_csv(out, path = paste0('S', sitenum, '_', site, '_eqrun.csv'))
 }
 
 if (opt_tr) {
-  # fit_tr <- optim(fn =  CostTrans, par = pars_optim_init, pars = pars,
+  # fit_tr <- optim(fn =  CostTrans, par = pars_optim_init, pars_default = pars_default,
   #                 input_spin = input_spin, input_trans = input_trans,
   #                 method = "L-BFGS-B", upper = pars_optim_upper, lower = pars_optim_lower)
-  fit_tr <- modFit(f = CostTrans, p = pars_optim_init, pars = pars, C_obs = C_obs, site_data = site_data,
+  fit_tr <- modFit(f = CostTrans, p = pars_optim_init, pars_default = pars_default, C_obs = C_obs, site_data = site_data,
                    input_spin = input_spin, input_trans = input_trans, method = "SANN",
                    upper = pars_optim_upper, lower = pars_optim_lower)
-  run_fittr <- as.data.frame(StartRun(pars = pars, pars_new = fit_tr$par,
+  run_fittr <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_tr$par,
                                       site_data = site_data, input = input_trans))
 }
 
