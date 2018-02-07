@@ -16,7 +16,7 @@ flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
 dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
 pars.default.file <-  "parsets/pars_M_eq.csv"
-pars.optim.file <- "parsets/pars_optim_2.csv"
+pars.optim.file <- "parsets/pars_optim_1.csv"
 pars.optimeq.file <- "parsets/pars_optimeq_2.csv"
 
 spin.years   <- 2    # years for spinup run
