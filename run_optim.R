@@ -10,8 +10,8 @@ rm(list=ls())
 
 sitenum <- 1  ##  1=askov_a, 2=askov_b, 3=grignon, 4=kursk, 5=rothamsted, 6=ultuna, 7=versailles
 # sitenum <- commandArgs(trailingOnly = TRUE)
-opt_eq <- 0
-opt_tr <- 1
+opt_eq <- 1
+opt_tr <- 0
 flag_ads  <- 1  # simulate adsorption to minerals
 flag_lea  <- 0  # simulate leakage
 dec_fun   <- "MM" # One of: 'MM', '2nd', '1st'
@@ -43,6 +43,7 @@ source("StartRun.R")
 source("MonthlyInput.R")
 source('EquilFun.R')
 source('util.R')
+source('Plots.R')
 
 ### === Parameter Options =====================
 pars_default <- read.csv(pars.default.file, row.names = 1)
@@ -96,9 +97,9 @@ if (opt_eq) {
 
   run_fiteq <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_eq$par,
                                       site_data = site_data, input = input_trans, tsave = day))
-  source('plots.R')
-  out <- GetYearly(data = run_fiteq, obs = obs, steps = year/day)
-  write_csv(out, path = paste0('S', sitenum, '_', site, '_eqrun.csv'))
+  Plot1(run_fiteq, obs)
+  # out <- GetYearly(data = run_fiteq, obs = obs, steps = year/day)
+  # write_csv(out, path = paste0('S', sitenum, '_', site, '_eqrun.csv'))
 }
 
 if (opt_tr) {
@@ -106,10 +107,13 @@ if (opt_tr) {
   #                 input_spin = input_spin, input_trans = input_trans,
   #                 method = "L-BFGS-B", upper = pars_optim_upper, lower = pars_optim_lower)
   fit_tr <- modFit(f = CostTrans, p = pars_optim_init, pars_default = pars_default, C_obs = C_obs, site_data = site_data,
-                   input_spin = input_spin, input_trans = input_trans, method = "SANN",
+                   input_spin = input_spin, input_trans = input_trans, method = "Marq",
                    upper = pars_optim_upper, lower = pars_optim_lower)
   run_fittr <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_tr$par,
                                       site_data = site_data, input = input_trans))
+  Plot1(run_fittr, obs)
+  out <- GetYearly(data = run_fittr, obs = obs, steps = year/month)
+  write_csv(out, path = paste0('S', sitenum, '_', site, '_trrun.csv'))
 }
 
-save.image(file = paste0("Optim_", site, "_", site, "_", starttime, ".RData"))
+# save.image(file = paste0("Optim_", site, "_", starttime, ".RData"))

@@ -45,13 +45,12 @@ Model_desolve <- function(t, initial_state, pars,
 
 	# Adsorption/desorption
     if(flag_ads) {
-      F_cpca  <- F_adsorp(C_P, C_A, Amax, k_ads)
-      F_cacp  <- F_desorp(C_A, k_des)
+      F_cpca  <- (Amax - C_A) * C_P * k_ads
+      F_cacp  <- C_A * k_des
     } else {
       F_cpca <- 0
       F_cacp <- 0
     }
-
     # Microbial growth, mortality, respiration and enzyme production
     F_cpcm <- Ucp * f_ug
     F_cpcr <- Ucp * (1 - f_ug)
@@ -61,7 +60,7 @@ Model_desolve <- function(t, initial_state, pars,
     F_cmcr <- C_M * r_mr
 
     ## Rate of change calculation for state variables ---------------
-    dC_P  <- F_slcp + F_cmcp - F_cpcm - F_cpcr + F_cacp - F_cpca
+    dC_P  <- F_slcp + F_cmcp + F_cacp - F_cpcm - F_cpcr - F_cpca
     dC_A  <- F_cpca - F_cacp
     dC_M  <- F_cpcm - F_cmcp - F_cmcr
     dC_Rg <- F_cpcr

@@ -23,15 +23,6 @@ Reaction1st <- function(S, V) {
   Flux <- V * S
 }
 
-F_adsorp <- function (C_D, C_A, Amax, k_ads) {
-  A <- Amax - C_A
-  return(C_D * A * k_ads)
-}
-
-F_desorp <- function (C_A, k_des) {
-  return(C_A * k_des)
-}
-
 ## Temperature response (Arrhenius)
 TempRespEq <- function(k_ref, T, T_ref, E, R) {
   k_ref * exp(-E/R * (1/T - 1/T_ref))

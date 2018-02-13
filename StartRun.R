@@ -24,7 +24,7 @@ StartRun <- function(input, site_data, pars_default, pars_new = NULL, initial_st
   out <- ode(initial_state, times, Model_desolve, pars,
              Approx_I_sl=Approx_I_sl, Approx_I_ml=Approx_I_ml,
              Approx_temp=Approx_temp, Approx_moist=Approx_moist,
-             spinup = spinup, end = end)
+             spinup = spinup, end = end, method = "rk4")
   print(Sys.time() - t0)
   return(out)
 }
