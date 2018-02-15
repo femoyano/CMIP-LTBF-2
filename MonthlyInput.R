@@ -1,7 +1,7 @@
 # MonthlyInput.R
 
 MonthlyInput <- function(x) {
-  
+
   out <- x %>%
     group_by(year, month) %>%
     select(year, month, hour, temp, moist, litt) %>%

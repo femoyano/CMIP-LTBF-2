@@ -40,5 +40,6 @@ GetEquil <- function(pars, site_data = NULL) {
       Amax*C_P*k_ads/(C_P*k_ads + k_des)
 
     return(c(C_P = C_P, C_A = C_A, C_M = C_M))
+
   })
 }
