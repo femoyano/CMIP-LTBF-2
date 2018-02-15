@@ -4,7 +4,6 @@ CostAll <- function(pars_optim_all, pars_default = pars_default, site_data = sit
 
   res_all <- NA
 
-
   for (i in 1:7) {
 
   site_data_ind <- site_data[i,]

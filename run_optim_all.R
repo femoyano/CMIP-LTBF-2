@@ -51,8 +51,6 @@ pars_optim_all_init      <- setNames(pars_optim_all[[1]],row.names(pars_optim_al
 pars_optim_all_lower     <- setNames(pars_optim_all[[2]],row.names(pars_optim_all))
 pars_optim_all_upper     <- setNames(pars_optim_all[[3]],row.names(pars_optim_all))
 
-
-
 ### Variables =================================================================
 year  <- 31104000      # seconds in a year
 month <- 2592000
@@ -68,19 +66,17 @@ tstep  <- hour
 ### Prepare site data
 ################################################################################
 
-site_data <- suppressMessages(read_csv("./input/site_data.csv"))
+site_data <- suppressMessages(read_csv("../input/site_data.csv"))
 
+obs <- suppressMessages(read_csv("../input/obs.csv", skip = 1))
 
-obs <- suppressMessages(read_csv("./input/obs.csv", skip = 1))
-
-trans.input.file  <- "./input/input_all_weather.csv"
+trans.input.file  <- "../input/input_all_weather.csv"
 input_trans <- suppressMessages(read_csv(trans.input.file, skip = 0))
 input_spin <- input_trans
 #input_spin <- MonthlyInput(input_spin)
 #input_trans <- MonthlyInput(input_trans)
 
 C_obs <-obs$soc.t.ha[1]  # observationsin tons per hectare
-
 
 if (opt_all) {
   # fit_tr <- optim(fn =  CostTrans, par = pars_optim_init, pars_default = pars_default,
@@ -107,7 +103,5 @@ Plot1(run_fittr, obs[obs$site == site_data$site[i],])
 }
 
 #out <- GetYearly(data = run_fittr, obs = obs, steps = year/month)
-
-
 
 save.image(file = paste0("Optim_all", starttime, ".RData"))
