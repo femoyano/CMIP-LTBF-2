@@ -74,14 +74,14 @@ tstep  <- hour
 ### Prepare site data
 ################################################################################
 
-site_data <- suppressMessages(read_csv("./input/site_data.csv"))
+site_data <- suppressMessages(read_csv("../input/site_data.csv"))
 site_data <- site_data[site_data$sitenum == sitenum, ]
 site <- site_data$site
 climate <- site_data$climate
 site_data <- setNames(suppressMessages(as.numeric(site_data)), colnames(site_data))
-obs <- suppressMessages(read_csv("./input/obs.csv", skip = 1))
+obs <- suppressMessages(read_csv("../input/obs.csv", skip = 1))
 obs <- obs[obs$site == site,]
-trans.input.file  <- paste("./input/input_trans_" , climate, ".csv", sep="")
+trans.input.file  <- paste("../input/input_trans_" , climate, ".csv", sep="")
 input_trans <- suppressMessages(read_csv(trans.input.file, skip = 2))
 input_spin <- input_trans[input_trans$year < 11, ]
 input_spin <- MonthlyInput(input_spin)
