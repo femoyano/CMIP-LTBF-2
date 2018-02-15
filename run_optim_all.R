@@ -90,11 +90,25 @@ if (opt_all) {
   fit_tr <- modFit(f = CostAll, p = pars_optim_all_init, pars_default = pars_default, C_obs = C_obs, site_data = site_data,
                    input_spin = input_spin, input_trans = input_trans, method = "Nelder-Mead",
                    upper = pars_optim_all_upper, lower = pars_optim_all_lower)
-  run_fittr <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_tr$par,
-                                      site_data = site_data[5,], input = input_trans[input_trans$climate == site_data[5,1],]))
-  Plot1(run_fittr, obs[obs$site == site_data$site[5],])
-  out <- GetYearly(data = run_fittr, obs = obs, steps = year/month)
+#  run_fittr <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_tr$par,
+#                                      site_data = site_data[5,], input = input_trans[input_trans$climate == site_data[5,1],]))
+#  Plot1(run_fittr, obs[obs$site == site_data$site[5],])
+#  out <- GetYearly(data = run_fittr, obs = obs, steps = year/month)
   #write_csv(out, path = paste0('S', sitenum, '_', site, '_trrun.csv'))
 }
+
+for (i in 1:7){
+  site <- site_data[i,1]
+  pars_default["eq_litt"] <- site_data[i,13]
+input_trans_ind <- MonthlyInput(input_trans[input_trans$climate == site_data[i,2],])
+  run_fittr <- as.data.frame(StartRun(pars = pars_default, pars_new = fit_tr$par,
+                                    site_data = site_data[i,], input = input_trans_ind))
+Plot1(run_fittr, obs[obs$site == site_data$site[i],])
+
+}
+
+#out <- GetYearly(data = run_fittr, obs = obs, steps = year/month)
+
+
 
 # save.image(file = paste0("Optim_", site, "_", starttime, ".RData"))
