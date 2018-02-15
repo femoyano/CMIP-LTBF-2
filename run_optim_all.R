@@ -69,7 +69,6 @@ tstep  <- hour
 ################################################################################
 
 site_data <- suppressMessages(read_csv("./input/site_data.csv"))
-site_data <- transform(site_data, eq_litt = c(0.0000085, 0.0000089, 0.000007, 0.0000061, 0.000016, 0.0000057, 0.000012))
 
 
 obs <- suppressMessages(read_csv("./input/obs.csv", skip = 1))
@@ -111,4 +110,4 @@ Plot1(run_fittr, obs[obs$site == site_data$site[i],])
 
 
 
-# save.image(file = paste0("Optim_", site, "_", starttime, ".RData"))
+save.image(file = paste0("Optim_all", starttime, ".RData"))
